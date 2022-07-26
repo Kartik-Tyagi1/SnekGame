@@ -12,7 +12,7 @@ private:
 	public:
 		/* Functin to set where the head of the snake starts */
 		void InitHead(const Location& loc);
-		/* Function to set where some starting body segments start */
+		/* Function to Initalize body color */
 		void InitBody();
 		/* Function to make segments follow the others as the snake moves */
 		void Follow(const Segment& next_seg);

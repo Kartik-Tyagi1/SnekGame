@@ -47,6 +47,11 @@ private:
 	/*  User Variables              */
 	Board brd;
 	Snake snek;
+	Location delta_loc;
+
+	// Snake moves 20fps
+	static constexpr int SnekMovePeriod = 10;
+	int snekMoveCounter = 0;
 	std::mt19937 rng;
 	/********************************/
 };

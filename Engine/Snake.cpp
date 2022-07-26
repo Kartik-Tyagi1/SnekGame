@@ -9,7 +9,7 @@ Snake::Snake(const Location& loc)
 void Snake::MoveBy(const Location& delta_loc)
 {
 	// From tail up to segment before the head, follow the segment before
-	for (int i = nSegments = 1; i > 0; i--)
+	for (int i = nSegments - 1; i > 0; i--)
 	{
 		segments[i].Follow(segments[i - 1]);
 	}
@@ -22,6 +22,7 @@ void Snake::Grow()
 {
 	if (nSegments < MaxSegments)
 	{
+		segments[nSegments].InitBody();
 		nSegments++;
 	}
 }
