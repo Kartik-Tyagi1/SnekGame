@@ -20,15 +20,17 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "SpriteCodex.h"
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd ),
+	wnd(wnd),
+	gfx(wnd),
 	brd(gfx),
 	rng(std::random_device()()),
-	snek({3,3}),
-	delta_loc({1,0})
+	snek({ 3,3 }),
+	delta_loc({ 1,0 }),
+	goal(rng, brd, snek)
 {
 }
 
@@ -42,34 +44,53 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.kbd.KeyIsPressed(VK_UP))
+	if (!IsGameOver)
 	{
-		delta_loc = { 0, -1 };
-	}
-	else if (wnd.kbd.KeyIsPressed(VK_DOWN))
-	{
-		delta_loc = { 0, 1 };
-	}
-	else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-	{
-		delta_loc = { 1, 0 };
-	}
-	else if (wnd.kbd.KeyIsPressed(VK_LEFT))
-	{
-		delta_loc = { -1, 0 };
-	}
-
-	
-
-	++snekMoveCounter;
-	if (snekMoveCounter >= SnekMovePeriod)
-	{
-		snekMoveCounter = 0;
-		if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+		if (wnd.kbd.KeyIsPressed(VK_UP))
 		{
-			snek.Grow();
+			delta_loc = { 0, -1 };
 		}
-		snek.MoveBy(delta_loc);
+		else if (wnd.kbd.KeyIsPressed(VK_DOWN))
+		{
+			delta_loc = { 0, 1 };
+		}
+		else if (wnd.kbd.KeyIsPressed(VK_RIGHT))
+		{
+			delta_loc = { 1, 0 };
+		}
+		else if (wnd.kbd.KeyIsPressed(VK_LEFT))
+		{
+			delta_loc = { -1, 0 };
+		}
+
+
+
+		++snekMoveCounter;
+		if (snekMoveCounter >= SnekMovePeriod)
+		{
+			snekMoveCounter = 0;
+			const Location next = snek.GetNextHeadLocation(delta_loc);
+			if (!brd.IsInBounds(next) || snek.IsOverlappingExceptEnd(next))
+			{
+				IsGameOver = true;
+			}
+			else
+			{
+				const bool IsEating = (next == goal.GetLocation());
+				if (IsEating)
+				{
+					snek.Grow();
+				}
+				snek.MoveBy(delta_loc);
+
+				// Only respawn when the snek moves to that goal location so that it doesn't respawn at the same location
+				if (IsEating)
+				{
+					goal.Respawn(rng, brd, snek);
+				}
+
+			}
+		}
 	}
 
 }
@@ -88,4 +109,9 @@ void Game::ComposeFrame()
 	}*/
 
 	snek.DrawSnake(brd);
+	goal.DrawGoal(brd);
+	if (IsGameOver)
+	{
+		SpriteCodex::DrawGameOver(200, 200, gfx);
+	}
 }

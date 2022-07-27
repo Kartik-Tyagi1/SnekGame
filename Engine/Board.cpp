@@ -10,12 +10,12 @@ void Board::DrawCell(const Location& loc, Color c)
 	gfx.DrawRectDim(loc.x * dimension, loc.y * dimension, width, height, c);
 }
 
-int Board::GetBoardWidth()
+int Board::GetBoardWidth() const
 {
 	return width;
 }
 
-int Board::GetBoardHeight()
+int Board::GetBoardHeight() const
 {
 	return height;
 }
@@ -23,4 +23,9 @@ int Board::GetBoardHeight()
 int Board::GetCellDimension()
 {
 	return dimension;
+}
+
+bool Board::IsInBounds(const Location& loc) const
+{
+	return loc.x >= 0 && loc.x < width && loc.y >= 0 && loc.y < height;
 }

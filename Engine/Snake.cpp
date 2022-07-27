@@ -36,6 +36,40 @@ void Snake::DrawSnake(Board& brd) const
 	}
 }
 
+Location Snake::GetNextHeadLocation(const Location& delta_loc) const
+{
+	Location NextHeadLocation(segments[0].GetSegmentLocation());
+	NextHeadLocation.Add(delta_loc);
+
+	return NextHeadLocation;
+}
+
+bool Snake::IsOverlappingExceptEnd(const Location& target)
+{
+	for (int i = 0; i < nSegments - 1; i++)
+	{
+		if (segments[i].GetSegmentLocation() == target)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Snake::IsOverlapping(const Location& target) const
+{
+	for (int i = 0; i < nSegments; i++)
+	{
+		if (segments[i].GetSegmentLocation() == target)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Snake::Segment::InitHead(const Location& in_loc)
 {
 	loc = in_loc;
@@ -63,4 +97,10 @@ void Snake::Segment::MoveSegmentBy(const Location& delta_loc)
 void Snake::Segment::DrawSegment(Board& brd) const
 {
 	brd.DrawCell(loc, c);
+}
+
+
+const Location& Snake::Segment::GetSegmentLocation() const
+{
+	return loc;
 }
