@@ -108,6 +108,7 @@ void Game::ComposeFrame()
 		}
 	}*/
 
+	brd.DrawBorder();
 	snek.DrawSnake(brd);
 	goal.DrawGoal(brd);
 	if (IsGameOver)

@@ -12,6 +12,7 @@ public:
 	int GetBoardHeight() const;
 	int GetCellDimension();
 	bool IsInBoard(const Location& loc) const;
+	void DrawBorder();
 
 private:
 	/* Dimension of each square cell in the board */
@@ -19,11 +20,20 @@ private:
 
 	/* 
 	* Actual width and hight of the board 
-	* This means that there are 40, 20X20 cells across
-	* This means that there are 30, 20x20 cells down
+	* This means that there are 25, 20X20 cells across
+	* This means that there are 25, 20x20 cells down
 	*/
-	static constexpr int width = 40;
-	static constexpr int height = 30;
+	static constexpr int width = 25;
+	static constexpr int height = 25;
+
+	/* Starting position of the board */
+	static constexpr int x = 20;
+	static constexpr int y = 20;
+
+	/* Border Properties */
+	const Color BorderColor = Colors::Blue;
+	static constexpr int BorderWidth = 4;   
+	static constexpr int BorderPadding = 2;  // Padding between the border and the actual board
 
 	Graphics& gfx;
 };
