@@ -70,7 +70,7 @@ void Game::UpdateModel()
 		{
 			snekMoveCounter = 0;
 			const Location next = snek.GetNextHeadLocation(delta_loc);
-			if (!brd.IsInBounds(next) || snek.IsOverlappingExceptEnd(next))
+			if (!brd.IsInBoard(next) || snek.IsOverlappingExceptEnd(next))
 			{
 				IsGameOver = true;
 			}
