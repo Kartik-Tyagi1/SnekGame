@@ -23,12 +23,12 @@ private:
 	* This means that there are 25, 20X20 cells across
 	* This means that there are 25, 20x20 cells down
 	*/
-	static constexpr int width = 25;
-	static constexpr int height = 25;
+	static constexpr int width = 32;
+	static constexpr int height = 24;
 
 	/* Starting position of the board */
-	static constexpr int x = 20;
-	static constexpr int y = 20;
+	static constexpr int x = 70;
+	static constexpr int y = 50;
 
 	/* Border Properties */
 	const Color BorderColor = Colors::Blue;
