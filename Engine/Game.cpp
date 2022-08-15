@@ -32,6 +32,10 @@ Game::Game(MainWindow& wnd)
 	delta_loc({ 1,0 }),
 	goal(rng, brd, snek)
 {
+	for (int i = 0; i < MaxObstacles; i++)
+	{
+		obstacles[i].InitializeObstacle();
+	}
 }
 
 void Game::Go()
@@ -70,6 +74,15 @@ void Game::UpdateModel()
 		{
 			snekMoveCounter = 0;
 			const Location next = snek.GetNextHeadLocation(delta_loc);
+
+			for (int i = 0; i < ObstacleCounter; i++)
+			{
+				if (next == obstacles[i].GetLocation())
+				{
+					IsGameOver = true;
+				}
+			}
+
 			if (!brd.IsInBoard(next) || snek.IsOverlappingExceptEnd(next))
 			{
 				IsGameOver = true;
@@ -79,7 +92,16 @@ void Game::UpdateModel()
 				const bool IsEating = (next == goal.GetLocation());
 				if (IsEating)
 				{
-					snek.Grow();
+					if (SnekGrowCount >= 3)
+					{
+						SnekGrowCount = 0;
+					}
+					else
+					{
+						SnekGrowCount++;
+					}
+					snek.Grow(SnekGrowCount);
+
 				}
 				snek.MoveBy(delta_loc);
 
@@ -88,7 +110,14 @@ void Game::UpdateModel()
 				{
 					goal.Respawn(rng, brd, snek);
 				}
-
+				if (IsEating)
+				{
+					if (ObstacleCounter < MaxObstacles)
+					{
+						obstacles[ObstacleCounter].GenerateLocation(rng, brd, snek);
+						ObstacleCounter++;
+					}
+				}
 			}
 		}
 	}
@@ -111,6 +140,10 @@ void Game::ComposeFrame()
 	brd.DrawBorder();
 	snek.DrawSnake(brd);
 	goal.DrawGoal(brd);
+	for (int i = 0; i < ObstacleCounter; i++)
+	{
+		obstacles[i].DrawObstacle(brd);
+	}
 	if (IsGameOver)
 	{
 		SpriteCodex::DrawGameOver(200, 200, gfx);

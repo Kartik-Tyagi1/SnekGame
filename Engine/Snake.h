@@ -13,7 +13,7 @@ private:
 		/* Functin to set where the head of the snake starts */
 		void InitHead(const Location& loc);
 		/* Function to Initalize body color */
-		void InitBody();
+		void InitBody(Color in_c);
 		/* Function to make segments follow the others as the snake moves */
 		void Follow(const Segment& next_seg);
 		/* Function to determine how much to move the head segment */
@@ -36,7 +36,7 @@ public:
 	void MoveBy(const Location& delta_loc);
 
 	/* Function to grow the snake after it eats the food */
-	void Grow();
+	void Grow(int ColorCount);
 	void DrawSnake(Board& brd) const;
 
 	/* Get the value of where the head will be next. Used to determine if snake goes out of bounds */
@@ -58,5 +58,7 @@ private:
 
 	static constexpr Color HeadColor = Colors::Yellow;
 	static constexpr Color BodyColor = Colors::Green;
+	static constexpr Color BodyColor2 = {0, 200, 0}; // Darker Green
+	static constexpr Color BodyColor3 = { 0, 180, 0 }; // More Darker Green
 
 };
