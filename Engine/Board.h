@@ -34,6 +34,7 @@ private:
 	const Color BorderColor = Colors::Blue;
 	static constexpr int BorderWidth = 4;   
 	static constexpr int BorderPadding = 2;  // Padding between the border and the actual board
+	static constexpr int CellPadding = 1;
 
 	Graphics& gfx;
 };

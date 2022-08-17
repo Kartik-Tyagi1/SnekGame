@@ -18,7 +18,11 @@ void Board::DrawCell(const Location& loc, Color c)
 	int offset_y = y + BorderWidth + BorderPadding;
 
 	// Shift everything 20 px and the border width and padding down and right so we can draw a border around the board
-	gfx.DrawRectDim(loc.x * dimension + offset_x, loc.y * dimension + offset_y, dimension, dimension, c);
+	gfx.DrawRectDim(loc.x * dimension + offset_x + CellPadding, 
+					loc.y * dimension + offset_y + CellPadding,
+					dimension - CellPadding * 2,
+					dimension - CellPadding * 2, 
+					c);
 }
 
 int Board::GetBoardWidth() const

@@ -16,7 +16,7 @@ void Goal::Respawn(std::mt19937 &rng, const Board& brd, const Snake& snek)
 		newLoc.x = xDist(rng);
 		newLoc.y = yDist(rng);
 
-	} while (snek.IsOverlapping(newLoc));
+	} while (snek.IsOverlapping(newLoc) || !brd.IsInBoard(newLoc));
 
 	GoalLoc = newLoc;
 }
@@ -29,4 +29,14 @@ void Goal::DrawGoal(Board& brd) const
 const Location& Goal::GetLocation() const
 {
 	return GoalLoc;
+}
+
+const bool Goal::IsOverlapping(const Location& target) const
+{
+	if (GoalLoc == target)
+	{
+		return true;
+	}
+
+	return false;
 }
